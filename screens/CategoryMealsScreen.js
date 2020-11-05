@@ -1,45 +1,68 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, Platform } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Platform,
+  FlatList,
+} from "react-native";
 
-import { CATEGORIES } from '../data/dummy-data';
-import Colors from '../constants/Colors';
+import { CATEGORIES, MEALS } from "../data/dummy-data";
+import Colors from "../constants/Colors";
 
-const CategoryMealsScreen = props => {
-    const catId = props.navigation.getParam('categoryId');
+import MealItem from "../components/MealItem";
 
-    const selectedCategory = CATEGORIES.find(cat => cat.id === catId );
+const CategoryMealsScreen = (props) => {
+  const renderMealItem = (itemData) => {
     return (
-        <View style={styles.screen} >
-            <Text>The CategoryMealScreen screen</Text>
-            <Text>{selectedCategory.title}</Text>
-            <Button title='Go to Meal Detail!' onPress={() => {
-                props.navigation.navigate({routeName: 'MealDetail'});
-            }} />
-            <Button title='Go Back!' onPress={() => {
-                props.navigation.goBack();
-            }} />
-        </View>
+      <MealItem
+        title={itemData.item.title}
+        duration={itemData.item.duration}
+        complexity={itemData.item.complexity.toUpperCase()}
+        affordability={itemData.item.affordability.toUpperCase()}
+        imageUrl={itemData.item.imageUrl}
+        onSelectMeal={() => {}}
+      ></MealItem>
     );
-}
+  };
 
-CategoryMealsScreen.navigationOptions  =  (navigationData) =>  {
-    const catId = navigationData.navigation.getParam('categoryId');
-    const selectedCategory = CATEGORIES.find(cat => cat.id === catId );
-    return {
-        headerTitle: selectedCategory.title,
-        headerStyle: {
-            backgroundColor: Platform.OS === 'android' ?  Colors.primaryColor : ''
-        },
-        headerTintColor: Platform.OS === 'android' ?  'white' : Colors.primaryColor
-    };
+  const catId = props.navigation.getParam("categoryId");
+
+  const displayedMeals = MEALS.filter(
+    (meal) => meal.categoryIds.indexOf(catId) >= 0
+  );
+
+  const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+  return (
+    <View style={styles.screen}>
+      <FlatList
+        data={displayedMeals}
+        style={{ width: "100%" }}
+        renderItem={renderMealItem}
+      ></FlatList>
+    </View>
+  );
+};
+
+CategoryMealsScreen.navigationOptions = (navigationData) => {
+  const catId = navigationData.navigation.getParam("categoryId");
+  const selectedCategory = CATEGORIES.find((cat) => cat.id === catId);
+  return {
+    headerTitle: selectedCategory.title,
+    headerStyle: {
+      backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+    },
+    headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+  };
 };
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+  screen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default CategoryMealsScreen;
