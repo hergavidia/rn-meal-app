@@ -6,6 +6,9 @@ import CategoriesScreen from "../screens/CategoriesScreen";
 import MealDetailScreen from "../screens/MealDetailScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../components/HeaderButton'
+
 import Colors from '../constants/Colors';
 
 const MealsNavigator = createStackNavigator(
@@ -14,7 +17,9 @@ const MealsNavigator = createStackNavigator(
     CategoryMeals: {
       screen: CategoryMealsScreen,
     },
-    MealDetail: MealDetailScreen,
+    MealDetail: {
+        screen: MealDetailScreen
+    },
   },
   {
     defaultNavigationOptions: {
