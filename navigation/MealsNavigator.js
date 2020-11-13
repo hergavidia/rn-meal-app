@@ -11,6 +11,18 @@ import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 
 import Colors from '../constants/Colors';
 import FavoritesScreen from "../screens/FavoritesScreen";
+import { createMaterialBottomTabNavigator }
+    from "react-navigation-material-bottom-tabs";
+
+const stackNavObject = {
+    defaultNavigationOptions: {
+        headerStyle: {
+            backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+        },
+        headerTintColor:
+            Platform.OS === "android" ? "white" : Colors.primaryColor,
+    },
+};
 
 const MealsNavigator = createStackNavigator(
   {
@@ -22,29 +34,33 @@ const MealsNavigator = createStackNavigator(
         screen: MealDetailScreen
     },
   },
-  {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? "white" : Colors.primaryColor,
-    },
-  }
+    stackNavObject
 );
 
-const MealsFavTabNavigator = createBottomTabNavigator({
+const FavNavigator = createStackNavigator({
+    Favourites: FavoritesScreen,
+    MealDetail: MealDetailScreen
+}, stackNavObject);
+
+const tabScreenConfig = {
     Meals: {screen: MealsNavigator, navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Ionicons name='ios-restaurant' size={25} color={tabInfo.tintColor} />
             }
         }},
-    Favourites: { screen: FavoritesScreen, navigationOptions: {
+    Favourites: { screen: FavNavigator, navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Ionicons name='ios-star' size={25} color={tabInfo.tintColor} />
             }
         }}
-}, {
+};
+
+const MealsFavTabNavigator = Platform.OS === 'android' ? createMaterialBottomTabNavigator(
+    tabScreenConfig, {
+        activeColor: Colors.primaryColor,
+        shifting: true
+}) : createBottomTabNavigator(
+    tabScreenConfig, {
     tabBarOptions: {
         activeTintColor: Colors.primaryColor
     }
