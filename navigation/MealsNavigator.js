@@ -13,6 +13,8 @@ import Colors from '../constants/Colors';
 import FavoritesScreen from "../screens/FavoritesScreen";
 import { createMaterialBottomTabNavigator }
     from "react-navigation-material-bottom-tabs";
+import {createDrawerNavigator} from "react-navigation-drawer";
+import FiltersScreen from "../screens/FiltersScreen";
 
 const stackNavObject = {
     defaultNavigationOptions: {
@@ -66,4 +68,18 @@ const MealsFavTabNavigator = Platform.OS === 'android' ? createMaterialBottomTab
     }
 });
 
-export default createAppContainer(MealsFavTabNavigator);
+const FiltersNavigator = createStackNavigator({
+    Filters: FiltersScreen
+}, stackNavObject);
+
+const mainNavigator = createDrawerNavigator({
+    MealsFavs: {
+        screen: MealsFavTabNavigator,
+        navigationOptions: {
+            drawerLabel: 'Meals'
+        }
+    },
+    Filters: FiltersNavigator
+});
+
+export default createAppContainer(mainNavigator);
