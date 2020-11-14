@@ -21,6 +21,12 @@ const stackNavObject = {
         headerStyle: {
             backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
         },
+        headerTitleStyle: {
+            fontFamily: 'open-sans-bold'
+        },
+        headerBackTitleStyle: {
+            fontFamily: 'open-sans-bold'
+        },
         headerTintColor:
             Platform.OS === "android" ? "white" : Colors.primaryColor,
     },
@@ -64,6 +70,9 @@ const MealsFavTabNavigator = Platform.OS === 'android' ? createMaterialBottomTab
 }) : createBottomTabNavigator(
     tabScreenConfig, {
     tabBarOptions: {
+        labelStyle: {
+            fontFamily: 'open-sans'
+        },
         activeTintColor: Colors.primaryColor
     }
 });
