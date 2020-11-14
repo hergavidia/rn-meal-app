@@ -88,7 +88,7 @@ FiltersScreen.navigationOptions = navData => {
                 <Item
                     title="Menu"
                     iconName="ios-save"
-                    onPress={ navData.navigation.getParam('save')}
+                    onPress={ navData.navigation.getParamnpm in('save')}
                 />
             </HeaderButtons>
         )

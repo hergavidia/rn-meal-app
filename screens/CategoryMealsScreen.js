@@ -8,17 +8,20 @@ import {
     FlatList,
 } from "react-native";
 
-import { CATEGORIES, MEALS } from "../data/dummy-data";
+import { CATEGORIES } from "../data/dummy-data";
 import Colors from "../constants/Colors";
 
 import MealList from "../components/MealList";
+import {useSelector} from "react-redux";
 
 const CategoryMealsScreen = (props) => {
 
 
     const catId = props.navigation.getParam("categoryId");
 
-    const displayedMeals = MEALS.filter(
+    const avaiableMeals = useSelector(state => state.meals.filteredMeals);
+
+    const displayedMeals = avaiableMeals.filter(
         (meal) => meal.categoryIds.indexOf(catId) >= 0
     );
 
